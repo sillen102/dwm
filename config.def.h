@@ -34,6 +34,21 @@ static const unsigned int alphas[][3]      = {
 	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
 };
 
+static const char *const autostart[] = {
+    "lxsession", NULL,
+    "picom", NULL,
+    "nitrogen", "--restore", NULL,
+    "dunst", NULL,
+    "statusbar", NULL,
+    "redshift-gtk", NULL,
+    "nm-applet", NULL,
+    "blueman-applet", NULL,
+    "libinput-gestures-setup", "start", NULL,
+    "powerkit", NULL,
+    "xautolock", "-time", "10", "-locker", "'betterlockscreen -l blur -t \"Ange Lösenord\"'", NULL,
+    NULL /* terminate */
+};
+
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
