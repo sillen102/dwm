@@ -4,5 +4,6 @@ My own build of suckless dynamic window manager (DWM)
 - Alpha
 - Cool autostart
 - Restartsig
+- Setstatus
 - Systray
 - Vanitygaps
