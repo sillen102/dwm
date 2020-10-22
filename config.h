@@ -42,6 +42,7 @@ static const char *const autostart[] = {
     "statusbar", NULL,
     "redshift-gtk", NULL,
     "nm-applet", NULL,
+    "pasystray", NULL,
     "blueman-applet", NULL,
     "libinput-gestures-setup", "start", NULL,
     "powerkit", NULL,
