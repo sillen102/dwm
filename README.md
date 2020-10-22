@@ -8,3 +8,4 @@ My own build of suckless dynamic window manager (DWM)
 - Setstatus
 - Systray
 - Vanitygaps
+- Zoomswap
