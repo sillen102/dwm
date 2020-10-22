@@ -1,6 +1,6 @@
 My own build of suckless dynamic window manager (DWM)
 
-### DWM added patches
+#### DWM added patches
 - Alpha
 - Systray
 - Vanitygaps
