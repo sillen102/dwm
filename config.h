@@ -48,6 +48,7 @@ static const char *const autostart[] = {
    "redshift-gtk", NULL,
    "nm-applet", NULL,
    "blueman-applet", NULL,
+   "pasystray", NULL,
    "libinput-gestures-setup", "start", NULL,
    "powerkit", NULL,
    "xautolock", "-time", "10", "-locker", "'betterlockscreen -l blur -t \"Ange Lösenord\"'", NULL, NULL /* terminate */
