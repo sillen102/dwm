@@ -8,5 +8,6 @@ My own build of suckless dynamic window manager (DWM)
 - Restartsig
 - Setstatus
 - Systray
+- Swallow
 - Vanitygaps
 - Zoomswap
