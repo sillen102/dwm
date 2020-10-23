@@ -8,6 +8,7 @@ My own build of suckless dynamic window manager (DWM)
 - Movestack
 - Restartsig
 - Setstatus
+- Singletagset
 - Systray
 - Swallow
 - Vanitygaps
