@@ -45,11 +45,11 @@ static const char *const autostart[] = {
    "nitrogen", "--restore", NULL,
    "dunst", NULL,
    "statusbar", NULL,
-   "redshift-gtk", NULL,
    "nm-applet", NULL,
+   "redshift-gtk", NULL,
    "blueman-applet", NULL,
-   "pasystray", NULL,
    "libinput-gestures-setup", "start", NULL,
+   "pasystray", NULL,
    "powerkit", NULL,
    "xautolock", "-time", "10", "-locker", "'betterlockscreen -l blur -t \"Ange Lösenord\"'", NULL, NULL /* terminate */
 };
@@ -112,7 +112,7 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const char *browsercmd[] = { "firefox", NULL };
 static const char *secondbrowsercmd[] = { "chromium", NULL };
 static const char *filemanagercmd[] = { "nautilus", "--new-window", NULL };
-static const char *editorcmd[] = { "gedit", "--new-window", NULL };
+static const char *editorcmd[] = { "code", NULL };
 static const char *rofimenucmd[] = { "rofi", "-show", "drun", "-theme", "clean", NULL };
 static const char *rofiwindowcmd[] = { "rofi", "-show", "window", "-theme", "clean_window", NULL };
 static const char *rofipowercmd[] = { "powermenu_launch.sh", NULL };
