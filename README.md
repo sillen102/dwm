@@ -6,6 +6,7 @@ My own build of suckless dynamic window manager (DWM)
 - Attachbottom
 - Cool autostart
 - Cycle layouts
+- Deck
 - Movestack
 - Restartsig
 - Setstatus
