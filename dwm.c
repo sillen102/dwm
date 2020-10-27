@@ -438,6 +438,8 @@ static Client *termforwin(const Client *c);
 
 static pid_t winpid(Window w);
 
+static void focusmaster(const Arg *arg);
+
 /* variables */
 static Client *prevzoom = NULL;
 static Systray *systray = NULL;
@@ -817,6 +819,7 @@ deck(Monitor *m) {
 
     if (smartgaps == n) {
         oe = 0; // outer gaps disabled
+        ie = 0; // inner gaps disabled
     }
 
     if (n > m->nmaster) {
@@ -829,7 +832,7 @@ deck(Monitor *m) {
         if (i < m->nmaster) {
             h = (m->wh - my) / (MIN(n, m->nmaster) - i);
             resize(c, m->wx + m->gappov * oe, m->wy + my + m->gappov * oe, mw - (2 * c->bw) - m->gappiv * ie * 2,
-                   h - (2 * c->bw) - m->gappoh * 2, False);
+                   h - (2 * c->bw) - m->gappoh * 2 * oe, False);
             my += HEIGHT(c);
         } else
             XMoveWindow(dpy, c->win, WIDTH(c) * -2, c->y);
@@ -3143,4 +3146,18 @@ main(int argc, char *argv[]) {
     cleanup();
     XCloseDisplay(dpy);
     return EXIT_SUCCESS;
+}
+
+void
+focusmaster(const Arg *arg)
+{
+	Client *c;
+
+	if (selmon->nmaster < 1)
+		return;
+
+	c = nexttiled(selmon->clients);
+
+	if (c)
+		focus(c);
 }
