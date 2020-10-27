@@ -8,6 +8,7 @@ My own build of suckless dynamic window manager (DWM)
 - Cycle layouts
 - Deck
 - Movestack
+- Pertg
 - Restartsig
 - Setstatus
 - Systray

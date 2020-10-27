@@ -1,2 +1,4 @@
 # Files
 *.o
+.idea
+cmake-build-debug
