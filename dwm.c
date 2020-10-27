@@ -438,6 +438,8 @@ static Client *termforwin(const Client *c);
 
 static pid_t winpid(Window w);
 
+static void focusmaster(const Arg *arg);
+
 /* variables */
 static Client *prevzoom = NULL;
 static Systray *systray = NULL;
@@ -3143,4 +3145,18 @@ main(int argc, char *argv[]) {
     cleanup();
     XCloseDisplay(dpy);
     return EXIT_SUCCESS;
+}
+
+void
+focusmaster(const Arg *arg)
+{
+	Client *c;
+
+	if (selmon->nmaster < 1)
+		return;
+
+	c = nexttiled(selmon->clients);
+
+	if (c)
+		focus(c);
 }

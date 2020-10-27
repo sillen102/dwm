@@ -7,6 +7,7 @@ My own build of suckless dynamic window manager (DWM)
 - Cool autostart
 - Cycle layouts
 - Deck
+- Focusmaster
 - Movestack
 - Pertag
 - Restartsig
