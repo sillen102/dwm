@@ -808,7 +808,7 @@ cleanup(void) {
 
 void
 deck(Monitor *m) {
-    unsigned int i, n, h, mw, my, ns, oe = enablegaps, ie = enablegaps;
+    unsigned int i, n, h, mw, my, oe = enablegaps, ie = enablegaps;
     Client *c, *s;
 
     for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
@@ -825,25 +825,22 @@ deck(Monitor *m) {
     } else {
         mw = m->ww;
     }
-    for (i = 0, my = m->gappoh * oe, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+    for (i = my = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
         if (i < m->nmaster) {
-            ns = m->nmaster > 0 ? 2 : 1;
             h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-            resize(c, m->wx + m->gappov * oe, m->wy + m->gappoh * ie, mw - (2 * c->bw) - m->gappiv * ie,
-                   h - (2 * c->bw) - m->gappoh * oe, False);
-            if (my + HEIGHT(c) + m->gappih < m->wh)
-                my += HEIGHT(c) + m->gappih * ie;
+            resize(c, m->wx + m->gappov * oe, m->wy + my + m->gappov * oe, mw - (2 * c->bw) - m->gappiv * ie * 2,
+                   h - (2 * c->bw) - m->gappoh * 2, False);
+            my += HEIGHT(c);
         } else
             XMoveWindow(dpy, c->win, WIDTH(c) * -2, c->y);
     for (s = m->stack; s; s = s->snext) {
-        ns = 1;
         if (!ISVISIBLE(s) || s->isfloating)
             continue;
         for (i = my = 0, c = nexttiled(m->clients); c && c != s; c = nexttiled(c->next), i++);
         if (i < m->nmaster)
             continue;
         XMoveWindow(dpy, s->win, c->x, c->y);
-        resize(s, m->wx + mw + m->gappih * ie, m->wy + m->gappoh * ie, m->ww - mw - (2*s->bw) - m->gappov * oe * (5 - ns) / 2, m->wh - (2*s->bw) - m->gappoh * oe * (5 - ns) / 2, False);
+        resize(s, m->wx + mw + m->gappiv * ie / 2, m->wy + my + m->gappov * oe, m->ww - mw - (2*s->bw) - m->gappov * oe * 2, m->wh - (2*s->bw) - m->gappoh * oe * 2, False);
         break;
     }
 }
