@@ -300,8 +300,6 @@ static void movemouse(const Arg *arg);
 
 static Client *nexttiled(Client *c);
 
-static void pop(Client *);
-
 static void propertynotify(XEvent *e);
 
 static void quit(const Arg *arg);
@@ -339,18 +337,6 @@ static void setfullscreen(Client *c, int fullscreen);
 static void setgaps(int oh, int ov, int ih, int iv);
 
 static void incrgaps(const Arg *arg);
-
-static void incrigaps(const Arg *arg);
-
-static void incrogaps(const Arg *arg);
-
-static void incrohgaps(const Arg *arg);
-
-static void incrovgaps(const Arg *arg);
-
-static void incrihgaps(const Arg *arg);
-
-static void incrivgaps(const Arg *arg);
 
 static void togglegaps(const Arg *arg);
 
@@ -841,6 +827,7 @@ deck(Monitor *m) {
     }
     for (i = 0, my = m->gappoh * oe, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
         if (i < m->nmaster) {
+            ns = m->nmaster > 0 ? 2 : 1;
             h = (m->wh - my) / (MIN(n, m->nmaster) - i);
             resize(c, m->wx + m->gappov * oe, m->wy + m->gappoh * ie, mw - (2 * c->bw) - m->gappiv * ie,
                    h - (2 * c->bw) - m->gappoh * oe, False);
@@ -849,13 +836,14 @@ deck(Monitor *m) {
         } else
             XMoveWindow(dpy, c->win, WIDTH(c) * -2, c->y);
     for (s = m->stack; s; s = s->snext) {
+        ns = 1;
         if (!ISVISIBLE(s) || s->isfloating)
             continue;
         for (i = my = 0, c = nexttiled(m->clients); c && c != s; c = nexttiled(c->next), i++);
         if (i < m->nmaster)
             continue;
         XMoveWindow(dpy, s->win, c->x, c->y);
-        resize(s, m->wx + mw + m->gappih * ie, m->wy + m->gappoh * ie, m->ww - mw - (2*s->bw) - m->gappov * oe * (3 - ns) / 2, m->wh - (2*s->bw) - m->gappoh * oe * (5 - ns) / 2, False);
+        resize(s, m->wx + mw + m->gappih * ie, m->wy + m->gappoh * ie, m->ww - mw - (2*s->bw) - m->gappov * oe * (5 - ns) / 2, m->wh - (2*s->bw) - m->gappoh * oe * (5 - ns) / 2, False);
         break;
     }
 }
@@ -1692,14 +1680,6 @@ nexttiled(Client *c) {
 }
 
 void
-pop(Client *c) {
-    detach(c);
-    attach(c);
-    focus(c);
-    arrange(c->mon);
-}
-
-void
 propertynotify(XEvent *e) {
     Client *c;
     Window trans;
@@ -2071,66 +2051,6 @@ incrgaps(const Arg *arg) {
             selmon->gappoh + arg->i,
             selmon->gappov + arg->i,
             selmon->gappih + arg->i,
-            selmon->gappiv + arg->i
-    );
-}
-
-void
-incrigaps(const Arg *arg) {
-    setgaps(
-            selmon->gappoh,
-            selmon->gappov,
-            selmon->gappih + arg->i,
-            selmon->gappiv + arg->i
-    );
-}
-
-void
-incrogaps(const Arg *arg) {
-    setgaps(
-            selmon->gappoh + arg->i,
-            selmon->gappov + arg->i,
-            selmon->gappih,
-            selmon->gappiv
-    );
-}
-
-void
-incrohgaps(const Arg *arg) {
-    setgaps(
-            selmon->gappoh + arg->i,
-            selmon->gappov,
-            selmon->gappih,
-            selmon->gappiv
-    );
-}
-
-void
-incrovgaps(const Arg *arg) {
-    setgaps(
-            selmon->gappoh,
-            selmon->gappov + arg->i,
-            selmon->gappih,
-            selmon->gappiv
-    );
-}
-
-void
-incrihgaps(const Arg *arg) {
-    setgaps(
-            selmon->gappoh,
-            selmon->gappov,
-            selmon->gappih + arg->i,
-            selmon->gappiv
-    );
-}
-
-void
-incrivgaps(const Arg *arg) {
-    setgaps(
-            selmon->gappoh,
-            selmon->gappov,
-            selmon->gappih,
             selmon->gappiv + arg->i
     );
 }
