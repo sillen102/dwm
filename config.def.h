@@ -69,6 +69,7 @@ static const Rule rules[] = {
     { "Firefox",     NULL,     NULL,           0,         0,          0,          -1,            -1 },
     { "st-256color", NULL,     NULL,           0,         0,          1,           0,            -1 },
     { "Alacritty",   NULL,     NULL,           0,         0,          1,           0,            -1 },   
+    { "gnome-terminal-server",   NULL,     NULL,           0,         0,          1,           0,            -1 },
     { NULL,          NULL,     "Event Tester", 0,         0,          0,           1,            -1 }, /* xev */
 };
 
@@ -111,7 +112,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "gnome-terminal", NULL };
 static const char *browsercmd[] = { "firefox", NULL };
 static const char *secondbrowsercmd[] = { "chromium", NULL };
 static const char *filemanagercmd[] = { "nautilus", "--new-window", NULL };
