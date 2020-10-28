@@ -12,6 +12,7 @@ My own build of suckless dynamic window manager (DWM)
 - Pertag
 - Restartsig
 - Setstatus
+- Status allmons
 - Systray
 - Swallow
 - Vanitygaps

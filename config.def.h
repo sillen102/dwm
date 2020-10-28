@@ -49,9 +49,11 @@ static const char *const autostart[] = {
    "redshift-gtk", NULL,
    "blueman-applet", NULL,
    "libinput-gestures-setup", "start", NULL,
+   "dropbox", NULL,
+   "skypeforlinux", NULL,
    "pasystray", NULL,
    "powerkit", NULL,
-   "xautolock", "-time", "10", "-locker", "'betterlockscreen -l blur -t \"Ange Lösenord\"'", NULL, NULL /* terminate */
+   "xautolock", "-time", "10", "-locker", "slock", NULL, NULL /* terminate */
 };
 
 /* tagging */
@@ -117,7 +119,7 @@ static const char *editorcmd[] = { "code", NULL };
 static const char *rofimenucmd[] = { "rofi", "-show", "drun", "-theme", "clean", NULL };
 static const char *rofiwindowcmd[] = { "rofi", "-show", "window", "-theme", "clean_window", NULL };
 static const char *rofipowercmd[] = { "powermenu_launch.sh", NULL };
-static const char *lockscreen[] = { "betterlockscreen", "-l", "blur", "-t", "Ange Lösenord", NULL };
+static const char *lockscreen[] = { "slock", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
@@ -140,7 +142,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 	{ MODKEY,                       XK_d,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
+	{ MODKEY|ShiftMask,             XK_space,  setlayout,      {0} },
 	{ MODKEY|ControlMask,		    XK_Down,   cyclelayout,    {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_Up,     cyclelayout,    {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_f,      togglefloating, {0} },
