@@ -41,7 +41,7 @@ static const unsigned int alphas[][3]      = {
 
 static const char *const autostart[] = {
    "lxsession", NULL,
-   "picom", NULL,
+   "picom", "--experimental-backends", NULL,
    "nitrogen", "--restore", NULL,
    "dunst", NULL,
    "statusbar", NULL,
@@ -67,7 +67,7 @@ static const Rule rules[] = {
     /* class            instance  title           tags mask  isfloating  isterminal  noswallow      monitor */
     { "Gimp",           NULL,     NULL,           0,         1,          0,           0,            -1 },
     { "Firefox",        NULL,     NULL,           0,         0,          0,          -1,            -1 },
-    { "st-256color",    NULL,     NULL,           0,         0,          1,           0,            -1 },
+    { "St",    NULL,     NULL,           0,         0,          1,           0,            -1 },
     { "Alacritty",      NULL,     NULL,           0,         0,          1,           0,            -1 },   
     { "Gnome-terminal", NULL,     NULL,           0,         0,          1,           0,            -1 },
     { "URxvt",          NULL,     NULL,           0,         0,          1,           0,            -1 },
@@ -113,7 +113,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", "tmux", NULL };
+static const char *termcmd[]  = { "alacritty", NULL };
 static const char *browsercmd[] = { "firefox", NULL };
 static const char *secondbrowsercmd[] = { "chromium", NULL };
 static const char *filemanagercmd[] = { "nautilus", "--new-window", NULL };
