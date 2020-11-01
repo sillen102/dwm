@@ -40,9 +40,10 @@ static const unsigned int alphas[][3]      = {
 };
 
 static const char *const autostart[] = {
-   "lxsession", NULL,
+   "lxpolkit", NULL,
    "picom", "--experimental-backends", NULL,
-   "nitrogen", "--restore", NULL,
+   "feh", "--bg-scale",
+        ".config/wallpapers/girl-with-katana-at-moonlight_3840x2160_xtrafondos.com.jpg", NULL,
    "dunst", NULL,
    "statusbar", NULL,
    "nm-applet", NULL,
@@ -53,7 +54,6 @@ static const char *const autostart[] = {
    "skypeforlinux", NULL,
    "pasystray", NULL,
    "powerkit", NULL,
-   "xautolock", "-time", "10", "-locker", "slock", NULL, NULL /* terminate */
 };
 
 /* tagging */
@@ -117,7 +117,7 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const char *browsercmd[] = { "firefox", NULL };
 static const char *secondbrowsercmd[] = { "chromium", NULL };
 static const char *filemanagercmd[] = { "nautilus", "--new-window", NULL };
-static const char *editorcmd[] = { "code", NULL };
+static const char *editorcmd[] = { "subl", "--new-window", NULL };
 static const char *rofimenucmd[] = { "rofi", "-show", "drun", "-theme", "clean", NULL };
 static const char *rofiwindowcmd[] = { "rofi", "-show", "window", "-theme", "clean_window", NULL };
 static const char *rofipowercmd[] = { "powermenu_launch.sh", NULL };
