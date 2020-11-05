@@ -18,7 +18,7 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10", "fontawesome:size=12" };
+static const char *fonts[]          = { "SauceCodePro Nerd Font:pixelsize=14:antialias=true:autohint=true" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222"; /* background color */
 static const char col_gray2[]       = "#444444"; /* inactive border color */
@@ -50,6 +50,8 @@ static const char *const autostart[] = {
    "redshift-gtk", NULL,
    "blueman-applet", NULL,
    "libinput-gestures-setup", "start", NULL,
+   "caffeine", NULL,
+   "numlockx", NULL,
    "dropbox", NULL,
    "skypeforlinux", NULL,
    "pasystray", NULL,
@@ -57,7 +59,7 @@ static const char *const autostart[] = {
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "1  ", "2  ", "3  ", "4  ", "5  ", "6  ", "7  ", "8  ", "9  " };
 
 static const Rule rules[] = {
     /* xprop(1):
