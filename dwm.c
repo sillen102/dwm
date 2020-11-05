@@ -2750,6 +2750,7 @@ void view(const Arg *arg) {
 
     focus(NULL);
     attachclients(selmon);
+    arrange(selmon);
 }
 
 pid_t winpid(Window w) {
