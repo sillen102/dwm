@@ -12,7 +12,7 @@ static const unsigned int gappiv    = 10;       /* vert inner gap between window
 static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
 static const int smartgaps          = 1;        /* 1 means no outer gap when there is only one window */
-static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systraypinning = 1;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 1;        /* 0 means no systray */
@@ -40,22 +40,23 @@ static const unsigned int alphas[][3]      = {
 };
 
 static const char *const autostart[] = {
-   "lxpolkit", NULL,
-   "picom", "--experimental-backends", NULL,
-   "feh", "--bg-scale",
+    "autorandr", "--change", NULL,
+    "lxpolkit", NULL,
+    "picom", "--experimental-backends", NULL,
+    "feh", "--bg-scale",
         ".config/wallpapers/girl-with-katana-at-moonlight_3840x2160_xtrafondos.com.jpg", NULL,
-   "dunst", NULL,
-   "statusbar", NULL,
-   "nm-applet", NULL,
-   "redshift-gtk", NULL,
-   "blueman-applet", NULL,
-   "libinput-gestures-setup", "start", NULL,
-   "caffeine", NULL,
-   "numlockx", NULL,
-   "dropbox", NULL,
-   "skypeforlinux", NULL,
-   "pasystray", NULL,
-   "powerkit", NULL,
+    "dunst", NULL,
+    "statusbar", NULL,
+    "nm-applet", NULL,
+    "redshift-gtk", NULL,
+    "blueman-applet", NULL,
+    "libinput-gestures-setup", "start", NULL,
+    "caffeine", NULL,
+    "numlockx", NULL,
+    "dropbox", "start", "-i", NULL,
+    "skypeforlinux", NULL,
+    "pasystray", NULL,
+    "powerkit", NULL,
 };
 
 /* tagging */
@@ -77,9 +78,9 @@ static const Rule rules[] = {
 };
 
 /* Media keys */
-static const char *upvol[]   = { "/usr/bin/pactl", "set-sink-volume", "0", "+5%",     NULL };
-static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "0", "-5%",     NULL };
-static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute",   "0", "toggle",  NULL };
+static const char *upvol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",     NULL };
+static const char *downvol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",     NULL };
+static const char *mutevol[] = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle",  NULL };
 static const char *playpause[] = { "playerctl", "play-pause",  NULL };
 static const char *playnext[] = { "playerctl", "next", NULL };
 static const char *playprevious[] = { "playerctl", "previous", NULL };
@@ -100,11 +101,13 @@ static const Layout layouts[] = {
     { "=M=",      centeredmaster },
     { ">M>",      centeredfloatingmaster },
     { "[D]",      deck },
+    { "HHH",      gaplessgrid },
     { NULL,       NULL },
 };
 
 /* key definitions */
 #define MODKEY Mod4Mask
+#define ALTKEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
     { MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
     { MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -150,6 +153,7 @@ static Key keys[] = {
     { MODKEY,                       XK_c,      setlayout,      {.v = &layouts[3]} },
     { MODKEY|ShiftMask,             XK_c,      setlayout,      {.v = &layouts[4]} },
     { MODKEY,                       XK_d,      setlayout,      {.v = &layouts[5]} },
+    { MODKEY,                       XK_g,      setlayout,      {.v = &layouts[6]} },
     { MODKEY|ShiftMask,             XK_space,  setlayout,      {0} },
     { MODKEY|ControlMask,		    XK_Down,   cyclelayout,    {.i = -1 } },
     { MODKEY|ControlMask,           XK_Up,     cyclelayout,    {.i = +1 } },
@@ -170,8 +174,8 @@ static Key keys[] = {
     /* Gaps */
     { MODKEY,                       XK_minus,  incrgaps,       {.i = -5 } },
     { MODKEY,                       XK_plus,   incrgaps,       {.i = +5 } },
-    { MODKEY,                       XK_g,      togglegaps,     {0 } },
-    { MODKEY|ShiftMask,             XK_g,      defaultgaps,    {0 } },
+    { MODKEY|ShiftMask,             XK_g,      togglegaps,     {0 } },
+    { MODKEY|ControlMask,           XK_g,      defaultgaps,    {0 } },
 
     /* Applications */
     { MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },

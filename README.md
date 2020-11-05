@@ -10,6 +10,7 @@ My own build of suckless dynamic window manager (DWM)
 - Deck
 - Focusmaster
 - Focusonnetactive
+- Gapless grid
 - Movestack
 - Pertag
 - Restartsig
