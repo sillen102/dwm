@@ -230,239 +230,126 @@ struct Systray {
 
 /* function declarations */
 static void applyrules(Client *c);
-
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
-
 static void arrange(Monitor *m);
-
 static void arrangemon(Monitor *m);
-
 static void attach(Client *c);
-
 static void attachbottom(Client *c);
-
 static void attachstack(Client *c);
-
 static void buttonpress(XEvent *e);
-
 static void checkotherwm(void);
-
 static void cleanup(void);
-
 static void cleanupmon(Monitor *mon);
-
 static void clientmessage(XEvent *e);
-
 static void configure(Client *c);
-
 static void configurenotify(XEvent *e);
-
 static void configurerequest(XEvent *e);
-
 static Monitor *createmon(void);
-
 static void deck(Monitor *m);
-
 static void cyclelayout(const Arg *arg);
-
 static void destroynotify(XEvent *e);
-
 static void detach(Client *c);
-
 static void detachstack(Client *c);
-
 static Monitor *dirtomon(int dir);
-
 static void drawbar(Monitor *m);
-
 static void drawbars(void);
-
 static void enternotify(XEvent *e);
-
 static void expose(XEvent *e);
-
 static Client *findbefore(Client *c);
-
 static void focus(Client *c);
-
 static void focusin(XEvent *e);
-
 static void focusmon(const Arg *arg);
-
 static void focusstack(const Arg *arg);
-
 static Atom getatomprop(Client *c, Atom prop);
-
 static int getrootptr(int *x, int *y);
-
 static long getstate(Window w);
-
 static unsigned int getsystraywidth();
-
 static int gettextprop(Window w, Atom atom, char *text, unsigned int size);
-
 static void grabbuttons(Client *c, int focused);
-
 static void grabkeys(void);
-
 static void incnmaster(const Arg *arg);
-
 static void keypress(XEvent *e);
-
 static void killclient(const Arg *arg);
-
 static void manage(Window w, XWindowAttributes *wa);
-
 static void mappingnotify(XEvent *e);
-
 static void maprequest(XEvent *e);
-
 static void monocle(Monitor *m);
-
 static void motionnotify(XEvent *e);
-
 static void movemouse(const Arg *arg);
-
 static Client *nexttiled(Client *c);
-
 static void propertynotify(XEvent *e);
-
 static void quit(const Arg *arg);
-
 static Monitor *recttomon(int x, int y, int w, int h);
-
 static void removesystrayicon(Client *i);
-
 static void resize(Client *c, int x, int y, int w, int h, int interact);
-
 static void resizebarwin(Monitor *m);
-
 static void resizeclient(Client *c, int x, int y, int w, int h);
-
 static void resizemouse(const Arg *arg);
-
 static void resizerequest(XEvent *e);
-
 static void restack(Monitor *m);
-
 static void run(void);
-
 static void scan(void);
-
 static int sendevent(Window w, Atom proto, int m, long d0, long d1, long d2, long d3, long d4);
-
 static void sendmon(Client *c, Monitor *m);
-
 static void setclientstate(Client *c, long state);
-
 static void setfocus(Client *c);
-
 static void setfullscreen(Client *c, int fullscreen);
-
 static void setgaps(int oh, int ov, int ih, int iv);
-
 static void incrgaps(const Arg *arg);
-
+static void getgaps(Monitor *m, int *oh, int *ov, int *ih, int *iv, unsigned int *nc);
+static void getfacts(Monitor *m, int msize, int ssize, float *mf, float *sf, int *mr, int *sr);
 static void togglegaps(const Arg *arg);
-
 static void defaultgaps(const Arg *arg);
-
 static void setlayout(const Arg *arg);
-
 static void setmfact(const Arg *arg);
-
 static void setup(void);
-
 static void seturgent(Client *c, int urg);
-
 static void showhide(Client *c);
-
 static void sigchld(int unused);
-
 static void sighup(int unused);
-
 static void sigterm(int unused);
-
 static void spawn(const Arg *arg);
-
 static Monitor *systraytomon(Monitor *m);
-
 static void tag(const Arg *arg);
-
 static void tagmon(const Arg *arg);
-
 static void tile(Monitor *);
-
 static void togglebar(const Arg *arg);
-
 static void togglefloating(const Arg *arg);
-
 static void toggletag(const Arg *arg);
-
 static void toggleview(const Arg *arg);
-
 static void unfocus(Client *c, int setfocus);
-
 static void unmanage(Client *c, int destroyed);
-
 static void unmapnotify(XEvent *e);
-
 static void updatebarpos(Monitor *m);
-
 static void updatebars(void);
-
 static void updateclientlist(void);
-
 static int updategeom(void);
-
 static void updatenumlockmask(void);
-
 static void updatesizehints(Client *c);
-
 static void updatestatus(void);
-
 static void updatesystray(void);
-
 static void updatesystrayicongeom(Client *i, int w, int h);
-
 static void updatesystrayiconstate(Client *i, XPropertyEvent *ev);
-
 static void updatetitle(Client *c);
-
 static void updatewindowtype(Client *c);
-
 static void updatewmhints(Client *c);
-
 static void view(const Arg *arg);
-
 static Client *wintoclient(Window w);
-
 static Monitor *wintomon(Window w);
-
 static Client *wintosystrayicon(Window w);
-
 static int xerror(Display *dpy, XErrorEvent *ee);
-
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
-
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
-
 static void xinitvisual();
-
 static void zoom(const Arg *arg);
-
+static void centeredmaster(Monitor *m);
+static void centeredfloatingmaster(Monitor *m);
 static void autostart_exec(void);
-
 static pid_t getparentprocess(pid_t p);
-
 static int isdescprocess(pid_t p, pid_t c);
-
 static Client *swallowingclient(Window w);
-
 static Client *termforwin(const Client *c);
-
 static pid_t winpid(Window w);
-
 static void focusmaster(const Arg *arg);
 
 /* variables */
@@ -561,7 +448,9 @@ autostart_exec() {
 }
 
 /* function implementations */
-void applyrules(Client *c) {
+void
+applyrules(Client *c)
+{
     const char *class, *instance;
     unsigned int i;
     const Rule *r;
@@ -595,7 +484,9 @@ void applyrules(Client *c) {
     c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
 }
 
-int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact) {
+int
+applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact)
+{
     int baseismin;
     Monitor *m = c->mon;
 
@@ -659,7 +550,9 @@ int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact) {
     return *x != c->x || *y != c->y || *w != c->w || *h != c->h;
 }
 
-void arrange(Monitor *m) {
+void
+arrange(Monitor *m)
+{
     if (m)
         showhide(m->stack);
     else
@@ -673,18 +566,24 @@ void arrange(Monitor *m) {
             arrangemon(m);
 }
 
-void arrangemon(Monitor *m) {
+void
+arrangemon(Monitor *m)
+{
     strncpy(m->ltsymbol, m->lt[m->sellt]->symbol, sizeof m->ltsymbol);
     if (m->lt[m->sellt]->arrange)
         m->lt[m->sellt]->arrange(m);
 }
 
-void attach(Client *c) {
+void
+attach(Client *c)
+{
     c->next = c->mon->clients;
     c->mon->clients = c;
 }
 
-void attachbottom(Client *c) {
+void
+attachbottom(Client *c)
+{
     Client *below = c->mon->clients;
     for (; below && below->next; below = below->next)
         ;
@@ -695,7 +594,9 @@ void attachbottom(Client *c) {
         c->mon->clients = c;
 }
 
-void attachstack(Client *c) {
+void
+attachstack(Client *c)
+{
     c->snext = c->mon->stack;
     c->mon->stack = c;
 }
@@ -742,7 +643,9 @@ void unswallow(Client *c) {
     arrange(c->mon);
 }
 
-void buttonpress(XEvent *e) {
+void
+buttonpress(XEvent *e)
+{
     unsigned int i, x, click;
     Arg arg = {0};
     Client *c;
@@ -781,7 +684,9 @@ void buttonpress(XEvent *e) {
             buttons[i].func(click == ClkTagBar && buttons[i].arg.i == 0 ? &arg : &buttons[i].arg);
 }
 
-void checkotherwm(void) {
+void
+checkotherwm(void)
+{
     xerrorxlib = XSetErrorHandler(xerrorstart);
     /* this causes an error if some other window manager is running */
     XSelectInput(dpy, DefaultRootWindow(dpy), SubstructureRedirectMask);
@@ -790,7 +695,9 @@ void checkotherwm(void) {
     XSync(dpy, False);
 }
 
-void cleanup(void) {
+void
+cleanup(void)
+{
     Arg a = {.ui = ~0};
     Layout foo = {"", NULL};
     Monitor *m;
@@ -820,32 +727,45 @@ void cleanup(void) {
     XDeleteProperty(dpy, root, netatom[NetActiveWindow]);
 }
 
-void deck(Monitor *m) {
-    unsigned int i, n, h, mw, my, oe = enablegaps, ie = enablegaps;
+void
+deck(Monitor *m)
+{
+    unsigned int i, n;
+    int oh, ov, ih, iv;
+    int mx = 0, my = 0, mh = 0, mw = 0;
+    int sx = 0, sy = 0, sh = 0, sw = 0;
+    float mfacts, sfacts;
+    int mrest, srest;
     Client *c, *s;
 
-    for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++)
-        ;
+    getgaps(m, &oh, &ov, &ih, &iv, &n);
     if (n == 0)
         return;
 
-    if (smartgaps == n) {
-        oe = 0;  // outer gaps disabled
-        ie = 0;  // inner gaps disabled
+
+    for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++)
+        ;
+    
+    sx = mx = m->wx + ov;
+    sy = my = m->wy + oh;
+    sh = mh = m->wh - 2*oh - ih * (MIN(n, m->nmaster) - 1);
+    sw = mw = m->ww - 2*ov;
+
+    if (m->nmaster && n > m->nmaster) {
+        sw = (mw - iv) * (1 - m->mfact);
+        mw = mw - iv - sw;
+        sx = mx + mw + iv;
+        sh = m->wh - 2*oh;
     }
 
-    if (n > m->nmaster) {
-        mw = m->nmaster ? m->ww * m->mfact : 0;
-        snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n - m->nmaster);
-    } else {
-        mw = m->ww;
-    }
-    for (i = my = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+    getfacts(m, mh, sh, &mfacts, &sfacts, &mrest, &srest);
+
+    
+    for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
         if (i < m->nmaster) {
-            h = (m->wh - my) / (MIN(n, m->nmaster) - i);
-            resize(c, m->wx + m->gappov * oe, m->wy + my + m->gappov * oe, mw - (2 * c->bw) - m->gappiv * ie * 2,
-                   h - (2 * c->bw) - m->gappoh * 2 * oe, False);
-            my += HEIGHT(c);
+            resize(c, mx, my, mw - (2*c->bw), (mh / mfacts) + (i < mrest ? 1 : 0) - (2*c->bw), 0);
+            my += HEIGHT(c) + ih;
+            
         } else
             XMoveWindow(dpy, c->win, WIDTH(c) * -2, c->y);
     for (s = m->stack; s; s = s->snext) {
@@ -856,12 +776,14 @@ void deck(Monitor *m) {
         if (i < m->nmaster)
             continue;
         XMoveWindow(dpy, s->win, c->x, c->y);
-        resize(s, m->wx + mw + m->gappiv * ie / 2, m->wy + my + m->gappov * oe, m->ww - mw - (2 * s->bw) - m->gappov * oe * 2, m->wh - (2 * s->bw) - m->gappoh * oe * 2, False);
+        resize(s, sx, sy, sw - (2*c->bw), sh - (2*c->bw), 0);
         break;
     }
 }
 
-void cleanupmon(Monitor *mon) {
+void
+cleanupmon(Monitor *mon)
+{
     Monitor *m;
 
     if (mon == mons)
@@ -876,7 +798,9 @@ void cleanupmon(Monitor *mon) {
     free(mon);
 }
 
-void clientmessage(XEvent *e) {
+void
+clientmessage(XEvent *e)
+{
     XWindowAttributes wa;
     XSetWindowAttributes swa;
     XClientMessageEvent *cme = &e->xclient;
@@ -2027,6 +1951,53 @@ void incrgaps(const Arg *arg) {
         selmon->gappiv + arg->i);
 }
 
+void
+getgaps(Monitor *m, int *oh, int *ov, int *ih, int *iv, unsigned int *nc)
+{
+    unsigned int n, oe, ie;
+    #if PERTAG_PATCH
+    oe = ie = selmon->pertag->enablegaps[selmon->pertag->curtag];
+    #else
+    oe = ie = enablegaps;
+    #endif // PERTAG_PATCH
+    Client *c;
+
+    for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+    if (smartgaps && n == 1) {
+       oe = 0; // outer gaps disabled when only one client
+    }
+
+    *oh = m->gappoh*oe; // outer horizontal gap
+    *ov = m->gappov*oe; // outer vertical gap
+    *ih = m->gappih*ie; // inner horizontal gap
+    *iv = m->gappiv*ie; // inner vertical gap
+    *nc = n;            // number of clients
+}
+
+void
+getfacts(Monitor *m, int msize, int ssize, float *mf, float *sf, int *mr, int *sr)
+{
+    unsigned int n;
+    float mfacts, sfacts;
+    int mtotal = 0, stotal = 0;
+    Client *c;
+
+    for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
+    mfacts = MIN(n, m->nmaster);
+    sfacts = n - m->nmaster;
+
+    for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++)
+       if (n < m->nmaster)
+           mtotal += msize / mfacts;
+       else
+           stotal += ssize / sfacts;
+
+    *mf = mfacts; // total factor of master area
+    *sf = sfacts; // total factor of stack area
+    *mr = msize - mtotal; // the remainder (rest) of pixels after an even master split
+    *sr = ssize - stotal; // the remainder (rest) of pixels after an even stack split
+}
+
 void setlayout(const Arg *arg) {
     if (!arg || !arg->v || arg->v != selmon->lt[selmon->sellt])
         selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag] ^= 1;
@@ -3002,7 +2973,9 @@ void xinitvisual() {
     }
 }
 
-void zoom(const Arg *arg) {
+void
+zoom(const Arg *arg)
+{
     Client *c = selmon->sel;
     Client *at = NULL, *cold, *cprevious = NULL;
 
@@ -3037,7 +3010,9 @@ void zoom(const Arg *arg) {
     arrange(c->mon);
 }
 
-int main(int argc, char *argv[]) {
+int
+main(int argc, char *argv[])
+{
     if (argc == 2 && !strcmp("-v", argv[1]))
         die("dwm-" VERSION);
     else if (argc != 1 && strcmp("-s", argv[1]))
@@ -3068,7 +3043,9 @@ int main(int argc, char *argv[]) {
     return EXIT_SUCCESS;
 }
 
-void focusmaster(const Arg *arg) {
+void
+focusmaster(const Arg *arg)
+{
     Client *c;
 
     if (selmon->nmaster < 1)
@@ -3078,4 +3055,142 @@ void focusmaster(const Arg *arg) {
 
     if (c)
         focus(c);
+}
+
+void
+centeredmaster(Monitor *m)
+{
+    unsigned int i, n;
+    int oh, ov, ih, iv;
+    int mx = 0, my = 0, mh = 0, mw = 0;
+    int lx = 0, ly = 0, lw = 0, lh = 0;
+    int rx = 0, ry = 0, rw = 0, rh = 0;
+    float mfacts = 0, lfacts = 0, rfacts = 0;
+    int mtotal = 0, ltotal = 0, rtotal = 0;
+    int mrest = 0, lrest = 0, rrest = 0;
+    Client *c;
+
+    getgaps(m, &oh, &ov, &ih, &iv, &n);
+    if (n == 0)
+       return;
+
+    /* initialize areas */
+    mx = m->wx + ov;
+    my = m->wy + oh;
+    mh = m->wh - 2*oh - ih * ((!m->nmaster ? n : MIN(n, m->nmaster)) - 1);
+    mw = m->ww - 2*ov;
+    lh = m->wh - 2*oh - ih * (((n - m->nmaster) / 2) - 1);
+    rh = m->wh - 2*oh - ih * (((n - m->nmaster) / 2) - ((n - m->nmaster) % 2 ? 0 : 1));
+
+    if (m->nmaster && n > m->nmaster) {
+       /* go mfact box in the center if more than nmaster clients */
+       if (n - m->nmaster > 1) {
+           /* ||<-S->|<---M--->|<-S->|| */
+           mw = (m->ww - 2*ov - 2*iv) * m->mfact;
+           lw = (m->ww - mw - 2*ov - 2*iv) / 2;
+           rw = (m->ww - mw - 2*ov - 2*iv) - lw;
+           mx += lw + iv;
+       } else {
+           /* ||<---M--->|<-S->|| */
+           mw = (mw - iv) * m->mfact;
+           lw = 0;
+           rw = m->ww - mw - iv - 2*ov;
+       }
+       lx = m->wx + ov;
+       ly = m->wy + oh;
+       rx = mx + mw + iv;
+       ry = m->wy + oh;
+    }
+
+    /* calculate facts */
+    for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
+       if (!m->nmaster || n < m->nmaster)
+           mfacts += 1;
+       else if ((n - m->nmaster) % 2)
+           lfacts += 1; // total factor of left hand stack area
+       else
+           rfacts += 1; // total factor of right hand stack area
+    }
+
+    for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++)
+       if (!m->nmaster || n < m->nmaster)
+           mtotal += mh / mfacts;
+       else if ((n - m->nmaster) % 2)
+           ltotal += lh / lfacts;
+       else
+           rtotal += rh / rfacts;
+
+    mrest = mh - mtotal;
+    lrest = lh - ltotal;
+    rrest = rh - rtotal;
+
+    for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++) {
+       if (!m->nmaster || i < m->nmaster) {
+           /* nmaster clients are stacked vertically, in the center of the screen */
+           resize(c, mx, my, mw - (2*c->bw), (mh / mfacts) + (i < mrest ? 1 : 0) - (2*c->bw), 0);
+           my += HEIGHT(c) + ih;
+       } else {
+           /* stack clients are stacked vertically */
+           if ((i - m->nmaster) % 2 ) {
+               resize(c, lx, ly, lw - (2*c->bw), (lh / lfacts) + ((i - 2*m->nmaster) < 2*lrest ? 1 : 0) - (2*c->bw), 0);
+               ly += HEIGHT(c) + ih;
+           } else {
+               resize(c, rx, ry, rw - (2*c->bw), (rh / rfacts) + ((i - 2*m->nmaster) < 2*rrest ? 1 : 0) - (2*c->bw), 0);
+               ry += HEIGHT(c) + ih;
+           }
+       }
+    }
+}
+
+void
+centeredfloatingmaster(Monitor *m)
+{
+    unsigned int i, n;
+    float mfacts, sfacts;
+    float mivf = 1.0; // master inner vertical gap factor
+    int oh, ov, ih, iv, mrest, srest;
+    int mx = 0, my = 0, mh = 0, mw = 0;
+    int sx = 0, sy = 0, sh = 0, sw = 0;
+    Client *c;
+
+    getgaps(m, &oh, &ov, &ih, &iv, &n);
+    if (n == 0)
+       return;
+
+    sx = mx = m->wx + ov;
+    sy = my = m->wy + oh;
+    sh = mh = m->wh - 2*oh;
+    mw = m->ww - 2*ov - iv*(n - 1);
+    sw = m->ww - 2*ov - iv*(n - m->nmaster - 1);
+
+    if (m->nmaster && n > m->nmaster) {
+       mivf = 0.8;
+       /* go mfact box in the center if more than nmaster clients */
+       if (m->ww > m->wh) {
+           mw = m->ww * m->mfact - iv*mivf*(MIN(n, m->nmaster) - 1);
+           mh = m->wh * 0.9;
+       } else {
+           mw = m->ww * 0.9 - iv*mivf*(MIN(n, m->nmaster) - 1);
+           mh = m->wh * m->mfact;
+       }
+       mx = m->wx + (m->ww - mw) / 2;
+       my = m->wy + (m->wh - mh - 2*oh) / 2;
+
+       sx = m->wx + ov;
+       sy = m->wy + oh;
+       sh = m->wh - 2*oh;
+    }
+
+    getfacts(m, mw, sw, &mfacts, &sfacts, &mrest, &srest);
+
+    for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+       if (i < m->nmaster) {
+           /* nmaster clients are stacked horizontally, in the center of the screen */
+           resize(c, mx, my, (mw / mfacts) + (i < mrest ? 1 : 0) - (2*c->bw), mh - (2*c->bw), 0);
+           mx += WIDTH(c) + iv*mivf;
+       } else {
+           /* stack clients are stacked horizontally */
+           resize(c, sx, sy, (sw / sfacts) + ((i - m->nmaster) < srest ? 1 : 0) - (2*c->bw), sh - (2*c->bw), 0);
+           sx += WIDTH(c) + iv;
+       }
 }

@@ -4,6 +4,7 @@ My own build of suckless dynamic window manager (DWM)
 - Alpha
 - Alwayscenter
 - Attachbottom
+- Centered master
 - Cool autostart
 - Cycle layouts
 - Deck
