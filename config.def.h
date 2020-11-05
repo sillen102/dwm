@@ -12,7 +12,7 @@ static const unsigned int gappiv    = 10;       /* vert inner gap between window
 static const unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
 static const int smartgaps          = 1;        /* 1 means no outer gap when there is only one window */
-static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systraypinning = 1;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 1;        /* 0 means no systray */
@@ -100,11 +100,13 @@ static const Layout layouts[] = {
     { "=M=",      centeredmaster },
     { ">M>",      centeredfloatingmaster },
     { "[D]",      deck },
+    { "HHH",      gaplessgrid },
     { NULL,       NULL },
 };
 
 /* key definitions */
 #define MODKEY Mod4Mask
+#define ALTKEY Mod1Mask
 #define TAGKEYS(KEY,TAG) \
     { MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
     { MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -150,6 +152,7 @@ static Key keys[] = {
     { MODKEY,                       XK_c,      setlayout,      {.v = &layouts[3]} },
     { MODKEY|ShiftMask,             XK_c,      setlayout,      {.v = &layouts[4]} },
     { MODKEY,                       XK_d,      setlayout,      {.v = &layouts[5]} },
+    { MODKEY,                       XK_g,      setlayout,      {.v = &layouts[6]} },
     { MODKEY|ShiftMask,             XK_space,  setlayout,      {0} },
     { MODKEY|ControlMask,		    XK_Down,   cyclelayout,    {.i = -1 } },
     { MODKEY|ControlMask,           XK_Up,     cyclelayout,    {.i = +1 } },
@@ -170,8 +173,8 @@ static Key keys[] = {
     /* Gaps */
     { MODKEY,                       XK_minus,  incrgaps,       {.i = -5 } },
     { MODKEY,                       XK_plus,   incrgaps,       {.i = +5 } },
-    { MODKEY,                       XK_g,      togglegaps,     {0 } },
-    { MODKEY|ShiftMask,             XK_g,      defaultgaps,    {0 } },
+    { MODKEY|ShiftMask,             XK_g,      togglegaps,     {0 } },
+    { MODKEY|ControlMask,           XK_g,      defaultgaps,    {0 } },
 
     /* Applications */
     { MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
