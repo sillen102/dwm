@@ -1,6 +1,9 @@
 # Files
 *.o
+.cproject
+.project
 
 # Folders
 .idea
 cmake-build-debug
+.settings/

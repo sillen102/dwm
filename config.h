@@ -40,26 +40,28 @@ static const unsigned int alphas[][3]      = {
 };
 
 static const char *const autostart[] = {
-   "lxpolkit", NULL,
-   "picom", "--experimental-backends", NULL,
-   "feh", "--bg-scale",
+    "autorandr", "--change", NULL,
+    "lxpolkit", NULL,
+    "picom", "--experimental-backends", NULL,
+    "feh", "--bg-scale",
         ".config/wallpapers/girl-with-katana-at-moonlight_3840x2160_xtrafondos.com.jpg", NULL,
-   "dunst", NULL,
-   "statusbar", NULL,
-   "nm-applet", NULL,
-   "redshift-gtk", NULL,
-   "blueman-applet", NULL,
-   "libinput-gestures-setup", "start", NULL,
-   "caffeine", NULL,
-   "numlockx", NULL,
-   "dropbox", NULL,
-   "skypeforlinux", NULL,
-   "pasystray", NULL,
-   "powerkit", NULL,
+    "dunst", NULL,
+    "pamac-tray", NULL,
+    "statusbar", NULL,
+    "nm-applet", NULL,
+    "redshift-gtk", NULL,
+    "blueman-applet", NULL,
+    "libinput-gestures-setup", "start", NULL,
+    "caffeine", NULL,
+    "numlockx", NULL,
+    "dropbox", "start", "-i", NULL,
+    "skypeforlinux", NULL,
+    "pasystray", NULL,
+    "powerkit", NULL,
 };
 
 /* tagging */
-static const char *tags[] = { "1  ", "2  ", "3  ", "4  ", "5  ", "6  ", "7  ", "8  ", "9  " };
+static const char *tags[] = { "1  ", "2  ", "3  ", "4  ", "5  ", "6  ", "7  ", "8  ", "9  " };
 
 static const Rule rules[] = {
     /* xprop(1):
@@ -77,9 +79,9 @@ static const Rule rules[] = {
 };
 
 /* Media keys */
-static const char *upvol[]   = { "/usr/bin/pactl", "set-sink-volume", "0", "+5%",     NULL };
-static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "0", "-5%",     NULL };
-static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute",   "0", "toggle",  NULL };
+static const char *upvol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%",     NULL };
+static const char *downvol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%",     NULL };
+static const char *mutevol[] = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle",  NULL };
 static const char *playpause[] = { "playerctl", "play-pause",  NULL };
 static const char *playnext[] = { "playerctl", "next", NULL };
 static const char *playprevious[] = { "playerctl", "previous", NULL };
@@ -123,7 +125,7 @@ static const char *termcmd[]  = { "alacritty", NULL };
 static const char *browsercmd[] = { "firefox", NULL };
 static const char *secondbrowsercmd[] = { "chromium", NULL };
 static const char *filemanagercmd[] = { "nautilus", "--new-window", NULL };
-static const char *editorcmd[] = { "subl", NULL };
+static const char *editorcmd[] = { "code", NULL };
 static const char *rofimenucmd[] = { "rofi", "-show", "drun", "-theme", "clean", NULL };
 static const char *rofiwindowcmd[] = { "rofi", "-show", "window", "-theme", "clean_window", NULL };
 static const char *rofipowercmd[] = { "powermenu_launch.sh", NULL };
@@ -140,8 +142,8 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_Up,     movestack,      {.i = -1 } },
     { MODKEY|ShiftMask,             XK_i,      incnmaster,     {.i = -1 } },
     { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
-    { MODKEY,                       XK_Left,   setmfact,       {.f = -0.05} },
-    { MODKEY,                       XK_Right,  setmfact,       {.f = +0.05} },
+    { MODKEY|ControlMask,           XK_Left,   setmfact,       {.f = -0.05} },
+    { MODKEY|ControlMask,           XK_Right,  setmfact,       {.f = +0.05} },
     { MODKEY,                       XK_z,      zoom,           {0} },
     { MODKEY,                       XK_Tab,    view,           {0} },
     { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
