@@ -8,6 +8,7 @@ My own build of suckless dynamic window manager (DWM)
 - Cool autostart
 - Cycle layouts
 - Deck
+- Ewmhtags
 - Focusmaster
 - Focusonnetactive
 - Gapless grid

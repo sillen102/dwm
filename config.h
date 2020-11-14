@@ -57,7 +57,7 @@ static const char *const autostart[] = {
     "dropbox", "start", "-i", NULL,
     "skypeforlinux", NULL,
     "pasystray", NULL,
-    "powerkit", NULL,
+    "xfce4-power-manager", NULL,
 };
 
 /* tagging */
@@ -144,10 +144,12 @@ static Key keys[] = {
     { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
     { MODKEY|ControlMask,           XK_Left,   setmfact,       {.f = -0.05} },
     { MODKEY|ControlMask,           XK_Right,  setmfact,       {.f = +0.05} },
-    { MODKEY,                       XK_z,      zoom,           {0} },
+    { MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
     { MODKEY,                       XK_Tab,    view,           {0} },
     { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
     { MODKEY,                       XK_q,      killclient,     {0} },
+
+    /* Layouts */
     { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
     { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
     { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
@@ -159,6 +161,8 @@ static Key keys[] = {
     { MODKEY|ControlMask,		    XK_Down,   cyclelayout,    {.i = -1 } },
     { MODKEY|ControlMask,           XK_Up,     cyclelayout,    {.i = +1 } },
     { MODKEY|ShiftMask,             XK_f,      togglefloating, {0} },
+
+    /* Multiple monitors */
     { MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
     { MODKEY,                       XK_period, focusmon,       {.i = +1 } },
     { MODKEY,                       XK_space,  focusmaster,    {0} },
