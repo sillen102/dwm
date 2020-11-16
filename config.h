@@ -18,7 +18,7 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "SauceCodePro Nerd Font:pixelsize=14:antialias=true:autohint=true" };
+static const char *fonts[]          = { "SauceCodePro Nerd Font:pixelsize=12:antialias=true:autohint=true" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222"; /* background color */
 static const char col_gray2[]       = "#444444"; /* inactive border color */
@@ -121,11 +121,12 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "alacritty", NULL };
+static const char *termcmd[]  = { "xfce4-terminal", NULL };
 static const char *browsercmd[] = { "firefox", NULL };
 static const char *secondbrowsercmd[] = { "chromium", NULL };
 static const char *filemanagercmd[] = { "nautilus", "--new-window", NULL };
 static const char *editorcmd[] = { "code", NULL };
+static const char *secondeditorcmd[] = { "gedit", "--new-window", NULL };
 static const char *rofimenucmd[] = { "rofi", "-show", "drun", "-theme", "clean", NULL };
 static const char *rofiwindowcmd[] = { "rofi", "-show", "window", "-theme", "clean_window", NULL };
 static const char *rofipowercmd[] = { "powermenu_launch.sh", NULL };
@@ -148,6 +149,7 @@ static Key keys[] = {
     { MODKEY,                       XK_Tab,    view,           {0} },
     { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
     { MODKEY,                       XK_q,      killclient,     {0} },
+    { MODKEY|ShiftMask,             XK_r,      quit,           {1} }, 
 
     /* Layouts */
     { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
@@ -157,10 +159,9 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_c,      setlayout,      {.v = &layouts[4]} },
     { MODKEY,                       XK_d,      setlayout,      {.v = &layouts[5]} },
     { MODKEY,                       XK_g,      setlayout,      {.v = &layouts[6]} },
-    { MODKEY|ShiftMask,             XK_space,  setlayout,      {0} },
     { MODKEY|ControlMask,		    XK_Down,   cyclelayout,    {.i = -1 } },
     { MODKEY|ControlMask,           XK_Up,     cyclelayout,    {.i = +1 } },
-    { MODKEY|ShiftMask,             XK_f,      togglefloating, {0} },
+    { MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 
     /* Multiple monitors */
     { MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
@@ -168,25 +169,25 @@ static Key keys[] = {
     { MODKEY,                       XK_space,  focusmaster,    {0} },
     { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
     { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-    { MODKEY|ShiftMask,             XK_r,      quit,           {1} }, 
 
     /* Menus */
     { MODKEY,                       XK_r,      spawn,          {.v = dmenucmd } },
     { MODKEY,                       XK_p,      spawn,          {.v = rofimenucmd } },
     { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = rofiwindowcmd } },
-    { MODKEY|ShiftMask,             XK_e,      spawn,          {.v = rofipowercmd } },
+    { MODKEY|ShiftMask,             XK_q,      spawn,          {.v = rofipowercmd } },
     
     /* Gaps */
     { MODKEY,                       XK_minus,  incrgaps,       {.i = -5 } },
     { MODKEY,                       XK_plus,   incrgaps,       {.i = +5 } },
-    { MODKEY|ShiftMask,             XK_g,      togglegaps,     {0 } },
-    { MODKEY|ControlMask,           XK_g,      defaultgaps,    {0 } },
+    { MODKEY|ShiftMask,             XK_g,      togglegaps,     {0} },
+    { MODKEY|ControlMask,           XK_g,      defaultgaps,    {0} },
 
     /* Applications */
     { MODKEY,                       XK_w,      spawn,          {.v = browsercmd } },
     { MODKEY|ShiftMask,             XK_w,      spawn,          {.v = secondbrowsercmd } },
     { MODKEY,                       XK_a,      spawn,          {.v = filemanagercmd } },
     { MODKEY,                       XK_e,      spawn,          {.v = editorcmd } },
+    { MODKEY|ShiftMask,             XK_e,      spawn,          {.v = secondeditorcmd } },
 
     /* Media keys */
     { 0,            XF86XK_AudioLowerVolume,   spawn,          {.v = downvol } },
