@@ -46,11 +46,11 @@ static const char *const autostart[] = {
     "feh", "--bg-scale",
         ".config/wallpapers/girl-with-katana-at-moonlight_3840x2160_xtrafondos.com.jpg", NULL,
     "dunst", NULL,
+    "blueman-applet", NULL,
     "pamac-tray", NULL,
     "statusbar", NULL,
     "nm-applet", NULL,
     "redshift-gtk", NULL,
-    "blueman-applet", NULL,
     "libinput-gestures-setup", "start", NULL,
     "caffeine", NULL,
     "numlockx", NULL,
@@ -61,7 +61,7 @@ static const char *const autostart[] = {
 };
 
 /* tagging */
-static const char *tags[] = { "1  ", "2  ", "3  ", "4  ", "5  ", "6  ", "7  ", "8  ", "9  " };
+static char *tags[] = { "1  ", "2  ", "3  ", "4  ", "5  ", "6  ", "7  ", "8  ", "9  " };
 
 static const Rule rules[] = {
     /* xprop(1):
@@ -125,14 +125,14 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *termcmd[]  = { "xfce4-terminal", NULL };
 static const char *browsercmd[] = { "firefox", NULL };
 static const char *secondbrowsercmd[] = { "chromium", NULL };
-static const char *filemanagercmd[] = { "nautilus", "--new-window", NULL };
-static const char *editorcmd[] = { "code", NULL };
-static const char *secondeditorcmd[] = { "gedit", "--new-window", NULL };
+static const char *filemanagercmd[] = { "thunar", NULL };
+static const char *editorcmd[] = { "subl", "--new-window", NULL };
+static const char *secondeditorcmd[] = { "code", NULL };
 static const char *rofimenucmd[] = { "rofi", "-show", "drun", "-theme", "clean", NULL };
 static const char *rofiwindowcmd[] = { "rofi", "-show", "window", "-theme", "clean_window", NULL };
 static const char *rofipowercmd[] = { "powermenu_launch.sh", NULL };
 static const char *lockscreen[] = { "slock", NULL };
-static const char *screenshot[] = { "gnome-screenshot", "-i", NULL };
+static const char *screenshot[] = { "xfce4-screenshooter", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
