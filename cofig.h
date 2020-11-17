@@ -109,6 +109,7 @@ static const Layout layouts[] = {
 /* key definitions */
 #define MODKEY Mod4Mask
 #define ALTKEY Mod1Mask
+#define PrintScreenDWM 0x0000ff61
 #define TAGKEYS(KEY,TAG) \
     { MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
     { MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
@@ -131,6 +132,7 @@ static const char *rofimenucmd[] = { "rofi", "-show", "drun", "-theme", "clean",
 static const char *rofiwindowcmd[] = { "rofi", "-show", "window", "-theme", "clean_window", NULL };
 static const char *rofipowercmd[] = { "powermenu_launch.sh", NULL };
 static const char *lockscreen[] = { "slock", NULL };
+static const char *screenshot[] = { "gnome-screenshot", "-i", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
@@ -145,7 +147,7 @@ static Key keys[] = {
     { MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
     { MODKEY|ControlMask,           XK_Left,   setmfact,       {.f = -0.05} },
     { MODKEY|ControlMask,           XK_Right,  setmfact,       {.f = +0.05} },
-    { MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
+    { MODKEY,                       XK_z,      zoom,           {0} },
     { MODKEY,                       XK_Tab,    view,           {0} },
     { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
     { MODKEY,                       XK_q,      killclient,     {0} },
@@ -198,6 +200,9 @@ static Key keys[] = {
     { 0,            XF86XK_AudioPrev,          spawn,          {.v = playprevious } },
     { 0,            XF86XK_MonBrightnessDown,  spawn,          {.v = downbright } },
     { 0,            XF86XK_MonBrightnessUp,    spawn,          {.v = upbright } },
+    
+    /* Special keys */
+    { 0,                    PrintScreenDWM,    spawn,          {.v = screenshot } },
 
     /* Lockscreen */
     { MODKEY,                       XK_l,      spawn,          {.v = lockscreen } },
