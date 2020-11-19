@@ -72,7 +72,7 @@ static const Rule rules[] = {
     /* class            instance  title           tags mask  isfloating  isterminal  noswallow      monitor */
     { "Gimp",           NULL,     NULL,           0,         1,          0,           0,            -1 },
     { "Firefox",        NULL,     NULL,           0,         0,          0,          -1,            -1 },
-    { "skypeforlinux",  NULL,     NULL,           7,         0,          0,          -1,            -1 },
+    { "Skype",          NULL,     NULL,           7,         0,          0,          -1,            -1 },
     { "st-256color",    NULL,     NULL,           0,         0,          1,           0,            -1 },
     { "Alacritty",      NULL,     NULL,           0,         0,          1,           0,            -1 },   
     { "Gnome-terminal", NULL,     NULL,           0,         0,          1,           0,            -1 },
@@ -191,7 +191,7 @@ static Key keys[] = {
     /* Applications */
     { MODKEY,                       XK_w,       spawn,          {.v = browsercmd } },
     { MODKEY|ShiftMask,             XK_w,       spawn,          {.v = secondbrowsercmd } },
-    { MODKEY,                       XK_a,       spawn,          {.v = filemanagercmd } },
+    { MODKEY|ShiftMask,             XK_Return,  spawn,          {.v = filemanagercmd } },
     { MODKEY,                       XK_e,       spawn,          {.v = editorcmd } },
     { MODKEY|ShiftMask,             XK_e,       spawn,          {.v = secondeditorcmd } },
 
