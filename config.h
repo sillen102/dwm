@@ -59,7 +59,6 @@ static const char *const autostart[] = {
     "skypeforlinux", NULL,
     "pasystray", NULL,
     "xfce4-power-manager", NULL,
-    "spotifyd", NULL
 };
 
 /* tagging */
