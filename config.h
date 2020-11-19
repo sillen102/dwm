@@ -54,7 +54,7 @@ static const char *const autostart[] = {
     "libinput-gestures-setup", "start", NULL,
     "caffeine", NULL,
     "numlockx", NULL,
-    "dropbox", "start", "-i", NULL,
+    "caja-dropbox", "start", "-i", NULL,
     "skypeforlinux", NULL,
     "pasystray", NULL,
     "xfce4-power-manager", NULL,
