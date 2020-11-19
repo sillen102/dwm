@@ -51,6 +51,7 @@ static const char *const autostart[] = {
     "statusbar", NULL,
     "nm-applet", NULL,
     "redshift-gtk", NULL,
+    "clipit", NULL,
     "libinput-gestures-setup", "start", NULL,
     "caffeine", NULL,
     "numlockx", NULL,
