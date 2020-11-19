@@ -55,7 +55,7 @@ static const char *const autostart[] = {
     "libinput-gestures-setup", "start", NULL,
     "caffeine", NULL,
     "numlockx", NULL,
-    "caja-dropbox", "start", "-i", NULL,
+    "dropbox", "start", "-i", NULL,
     "skypeforlinux", NULL,
     "pasystray", NULL,
     "xfce4-power-manager", NULL,
@@ -128,7 +128,7 @@ static const char *dmenucmd[] =
 static const char *termcmd[]  = { "xfce4-terminal", NULL };
 static const char *browsercmd[] = { "firefox", NULL };
 static const char *secondbrowsercmd[] = { "chromium", NULL };
-static const char *filemanagercmd[] = { "caja", NULL };
+static const char *filemanagercmd[] = { "pcmanfm", NULL };
 static const char *editorcmd[] = { "mousepad", NULL };
 static const char *secondeditorcmd[] = { "code", NULL };
 static const char *rofimenucmd[] = { "rofi", "-show", "drun", "-theme", "clean", NULL };
