@@ -4,7 +4,7 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
+static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 1;        /* 1 means swallow floating windows by default */
 static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
@@ -24,7 +24,7 @@ static const char col_gray1[]       = "#222222"; /* background color */
 static const char col_gray2[]       = "#444444"; /* inactive border color */
 static const char col_gray3[]       = "#bbbbbb"; /* font color */
 static const char col_gray4[]       = "#eeeeee"; /* current tag and current window font color */
-static const char col_cyan[]        = "#005577"; /* top bar second color (default blue) and active window border color */
+static const char col_cyan[]        = "#203D88"; /* top bar second color (default blue) and active window border color */
 static const char *colors[][3]      = {
     /*               fg         bg         border   */
     [SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -51,7 +51,7 @@ static const char *const autostart[] = {
     "statusbar", NULL,
     "nm-applet", NULL,
     "redshift-gtk", NULL,
-    "clipit", NULL,
+    "parcellite", NULL,
     "libinput-gestures-setup", "start", NULL,
     "caffeine", NULL,
     "numlockx", NULL,
@@ -72,7 +72,7 @@ static const Rule rules[] = {
     /* class            instance  title           tags mask  isfloating  isterminal  noswallow      monitor */
     { "Gimp",           NULL,     NULL,           0,         1,          0,           0,            -1 },
     { "Firefox",        NULL,     NULL,           0,         0,          0,          -1,            -1 },
-    { "Skype",          NULL,     NULL,           7,         0,          0,          -1,            -1 },
+    { "Skype",          NULL,     NULL,           1 << 6,    0,          0,          -1,            -1 },
     { "st-256color",    NULL,     NULL,           0,         0,          1,           0,            -1 },
     { "Alacritty",      NULL,     NULL,           0,         0,          1,           0,            -1 },   
     { "Gnome-terminal", NULL,     NULL,           0,         0,          1,           0,            -1 },
@@ -91,10 +91,10 @@ static const char *downbright[] = { "brightnessctl", "set", "5%-", NULL };
 static const char *upbright[] = { "brightnessctl", "set", "+5%", NULL };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-static const int attachdirection = 4;    /* 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top */
+static const float mfact     		= 0.50; /* factor of master area size [0.05..0.95] */
+static const int nmaster     		= 1;    /* number of clients in master area */
+static const int resizehints 		= 1;    /* 1 means respect size hints in tiled resizals */
+static const int attachdirection 	= 4;    /* 0 default, 1 above, 2 aside, 3 below, 4 bottom, 5 top */
 
 static const Layout layouts[] = {
     /* symbol     arrange function */
