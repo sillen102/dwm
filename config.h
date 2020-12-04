@@ -135,7 +135,7 @@ static const char *rofimenucmd[] = { "rofi", "-show", "drun", "-theme", "clean",
 static const char *rofiwindowcmd[] = { "rofi", "-show", "window", "-theme", "clean_window", NULL };
 static const char *rofipowercmd[] = { "powermenu_launch.sh", NULL };
 static const char *lockscreen[] = { "slock", NULL };
-static const char *screenshot[] = { "xfce4-screenshooter", NULL };
+static const char *screenshot[] = { "io.elementary.screenshot-tool", NULL };
 
 #include "movestack.c"
 static Key keys[] = {
