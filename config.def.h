@@ -42,7 +42,7 @@ static const unsigned int alphas[][3]      = {
 static const char *const autostart[] = {
     "autorandr", "--change", NULL,
     "lxpolkit", NULL,
-    "picom", "--experimental-backends", NULL,
+    "picom", NULL,
     "feh", "--bg-scale",
         ".config/wallpapers/girl-with-katana-at-moonlight_3840x2160_xtrafondos.com.jpg", NULL,
     "dunst", NULL,
