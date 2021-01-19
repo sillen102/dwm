@@ -46,7 +46,8 @@ static const char *const autostart[] = {
     "feh", "--bg-scale",
         ".config/wallpapers/girl-with-katana-at-moonlight_3840x2160_xtrafondos.com.jpg", NULL,
     "dunst", NULL,
-    "blueman-applet", NULL,
+    "blueberry-tray", NULL,
+    "numlockx", NULL,
     "pamac-tray", NULL,
     "statusbar", NULL,
     "nm-applet", NULL,
@@ -62,7 +63,7 @@ static const char *const autostart[] = {
 };
 
 /* tagging */
-static char *tags[] = { "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  " };
+static char *tags[] = { "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  ", "  " };
 
 static const Rule rules[] = {
     /* xprop(1):
@@ -70,12 +71,10 @@ static const Rule rules[] = {
      *	WM_NAME(STRING) = title
      */
     /* class            instance  title           tags mask  isfloating  isterminal  noswallow      monitor */
-    { "Gimp",           NULL,     NULL,           0,         1,          0,           0,            -1 },
-    { "Firefox",        NULL,     NULL,           0,         0,          0,          -1,            -1 },
     { "Skype",          NULL,     NULL,           1 << 6,    0,          0,          -1,            -1 },
     { "st-256color",    NULL,     NULL,           0,         0,          1,           0,            -1 },
     { "Alacritty",      NULL,     NULL,           0,         0,          1,           0,            -1 },   
-    { "Gnome-terminal", NULL,     NULL,           0,         0,          1,           0,            -1 },
+    { "Xfce4-terminal", NULL,     NULL,           0,         0,          1,           0,            -1 },
     { "URxvt",          NULL,     NULL,           0,         0,          1,           0,            -1 },
     { NULL,             NULL,     "Event Tester", 0,         0,          0,           1,            -1 }, /* xev */
 };
@@ -125,9 +124,9 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] =
             { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "kitty", NULL };
-static const char *browsercmd[] = { "firefox", NULL };
-static const char *secondbrowsercmd[] = { "chromium", NULL };
+static const char *termcmd[]  = { "xfce4-terminal", NULL };
+static const char *browsercmd[] = { "chromium", NULL };
+static const char *secondbrowsercmd[] = { "qutebrowser", NULL };
 static const char *filemanagercmd[] = { "pcmanfm", NULL };
 static const char *editorcmd[] = { "mousepad", NULL };
 static const char *secondeditorcmd[] = { "code", NULL };
