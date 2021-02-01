@@ -63,6 +63,7 @@
 #define WIDTH(X) ((X)->w + 2 * (X)->bw)
 #define HEIGHT(X) ((X)->h + 2 * (X)->bw)
 #define TAGMASK ((1 << LENGTH(tags)) - 1)
+#define TAGSLENGTH (LENGTH(tags))
 #define TEXTW(X) (drw_fontset_getwidth(drw, (X)) + lrpad)
 
 #define SYSTEM_TRAY_REQUEST_DOCK 0
@@ -108,6 +109,10 @@ enum {
     NetWMWindowType,
     NetWMWindowTypeDialog,
     NetClientList,
+    NetDesktopNames,
+    NetDesktopViewport,
+    NetNumberOfDesktops,
+    NetCurrentDesktop,
     NetLast
 }; /* EWMH atoms */
 enum {
@@ -292,6 +297,8 @@ static void scan(void);
 static int sendevent(Window w, Atom proto, int m, long d0, long d1, long d2, long d3, long d4);
 static void sendmon(Client *c, Monitor *m);
 static void setclientstate(Client *c, long state);
+static void setcurrentdesktop(void);
+static void setdesktopnames(void);
 static void setfocus(Client *c);
 static void setfullscreen(Client *c, int fullscreen);
 static void setgaps(int oh, int ov, int ih, int iv);
@@ -303,7 +310,9 @@ static void togglegaps(const Arg *arg);
 static void defaultgaps(const Arg *arg);
 static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
+static void setnumdesktops(void);
 static void setup(void);
+static void setviewport(void);
 static void seturgent(Client *c, int urg);
 static void showhide(Client *c);
 static void sigchld(int unused);
@@ -321,6 +330,7 @@ static void toggleview(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
 static void unmanage(Client *c, int destroyed);
 static void unmapnotify(XEvent *e);
+static void updatecurrentdesktop(void);
 static void updatebarpos(Monitor *m);
 static void updatebars(void);
 static void updateclientlist(void);
@@ -1879,6 +1889,20 @@ setclientstate(Client *c, long state)
                     PropModeReplace, (unsigned char *)data, 2);
 }
 
+void
+setcurrentdesktop(void)
+{
+    long data[] = { 0 };
+    XChangeProperty(dpy, root, netatom[NetCurrentDesktop], XA_CARDINAL, 32, PropModeReplace, (unsigned char *)data, 1);
+}
+
+void setdesktopnames(void)
+{
+    XTextProperty text;
+    Xutf8TextListToTextProperty(dpy, tags, TAGSLENGTH, XUTF8StringStyle, &text);
+    XSetTextProperty(dpy, root, &text, netatom[NetDesktopNames]);
+}
+
 int
 sendevent(Window w, Atom proto, int mask, long d0, long d1, long d2, long d3, long d4)
 {
@@ -1911,6 +1935,13 @@ sendevent(Window w, Atom proto, int mask, long d0, long d1, long d2, long d3, lo
         XSendEvent(dpy, w, False, mask, &ev);
     }
     return exists;
+}
+
+void
+setnumdesktops(void)
+{
+    long data[] = { TAGSLENGTH };
+    XChangeProperty(dpy, root, netatom[NetNumberOfDesktops], XA_CARDINAL, 32, PropModeReplace, (unsigned char *)data, 1);
 }
 
 void
@@ -2161,6 +2192,10 @@ setup(void)
     xatom[Manager] = XInternAtom(dpy, "MANAGER", False);
     xatom[Xembed] = XInternAtom(dpy, "_XEMBED", False);
     xatom[XembedInfo] = XInternAtom(dpy, "_XEMBED_INFO", False);
+    netatom[NetDesktopViewport] = XInternAtom(dpy, "_NET_DESKTOP_VIEWPORT", False);
+    netatom[NetNumberOfDesktops] = XInternAtom(dpy, "_NET_NUMBER_OF_DESKTOPS", False);
+    netatom[NetCurrentDesktop] = XInternAtom(dpy, "_NET_CURRENT_DESKTOP", False);
+    netatom[NetDesktopNames] = XInternAtom(dpy, "_NET_DESKTOP_NAMES", False);
     /* init cursors */
     cursor[CurNormal] = drw_cur_create(drw, XC_left_ptr);
     cursor[CurResize] = drw_cur_create(drw, XC_sizing);
@@ -2185,6 +2220,10 @@ setup(void)
     /* EWMH support per view */
     XChangeProperty(dpy, root, netatom[NetSupported], XA_ATOM, 32,
                     PropModeReplace, (unsigned char *)netatom, NetLast);
+    setnumdesktops();
+    setcurrentdesktop();
+    setdesktopnames();
+    setviewport();
     XDeleteProperty(dpy, root, netatom[NetClientList]);
     /* select events */
     wa.cursor = cursor[CurNormal]->cursor;
@@ -2193,6 +2232,13 @@ setup(void)
     XSelectInput(dpy, root, wa.event_mask);
     grabkeys();
     focus(NULL);
+}
+
+void
+setviewport(void)
+{
+    long data[] = { 0, 0 };
+    XChangeProperty(dpy, root, netatom[NetDesktopViewport], XA_CARDINAL, 32, PropModeReplace, (unsigned char *)data, 2);
 }
 
 void
@@ -2383,6 +2429,7 @@ toggletag(const Arg *arg)
         focus(NULL);
         arrange(selmon);
     }
+    updatecurrentdesktop();
 }
 
 void
@@ -2420,6 +2467,7 @@ toggleview(const Arg *arg)
         focus(NULL);
         arrange(selmon);
     }
+    updatecurrentdesktop();
 }
 
 void
@@ -2477,7 +2525,8 @@ unmanage(Client *c, int destroyed)
     }
 }
 
-void unmapnotify(XEvent *e) {
+void unmapnotify(XEvent *e)
+{
     Client *c;
     XUnmapEvent *ev = &e->xunmap;
 
@@ -2494,7 +2543,8 @@ void unmapnotify(XEvent *e) {
     }
 }
 
-void updatebars(void) {
+void updatebars(void)
+{
     unsigned int w;
     Monitor *m;
     XSetWindowAttributes wa = {
@@ -2521,7 +2571,8 @@ void updatebars(void) {
     }
 }
 
-void updatebarpos(Monitor *m) {
+void updatebarpos(Monitor *m)
+{
     m->wy = m->my;
     m->wh = m->mh;
     if (m->showbar) {
@@ -2532,7 +2583,8 @@ void updatebarpos(Monitor *m) {
         m->by = -bh;
 }
 
-void updateclientlist() {
+void updateclientlist()
+{
     Client *c;
     Monitor *m;
 
@@ -2544,11 +2596,24 @@ void updateclientlist() {
                             (unsigned char *)&(c->win), 1);
 }
 
-int updategeom(void) {
+void updatecurrentdesktop(void)
+{
+    long rawdata[] = { selmon->tagset[selmon->seltags] };
+    int i=0;
+    while(*rawdata >> (i+1)){
+    	i++;
+    }
+    long data[] = { i };
+    XChangeProperty(dpy, root, netatom[NetCurrentDesktop], XA_CARDINAL, 32, PropModeReplace, (unsigned char *)data, 1);
+}
+
+int updategeom(void)
+{
     int dirty = 0;
 
 #ifdef XINERAMA
-    if (XineramaIsActive(dpy)) {
+    if (XineramaIsActive(dpy))
+    {
         int i, j, n, nn;
         Client *c;
         Monitor *m;
@@ -2620,7 +2685,8 @@ int updategeom(void) {
     return dirty;
 }
 
-void updatenumlockmask(void) {
+void updatenumlockmask(void)
+{
     unsigned int i, j;
     XModifierKeymap *modmap;
 
@@ -2633,7 +2699,8 @@ void updatenumlockmask(void) {
     XFreeModifiermap(modmap);
 }
 
-void updatesizehints(Client *c) {
+void updatesizehints(Client *c)
+{
     long msize;
     XSizeHints size;
 
@@ -2684,7 +2751,8 @@ void updatestatus(void) {
     updatesystray();
 }
 
-void updatesystrayicongeom(Client *i, int w, int h) {
+void updatesystrayicongeom(Client *i, int w, int h)
+{
     if (i) {
         i->h = bh;
         if (w == h)
@@ -2705,7 +2773,8 @@ void updatesystrayicongeom(Client *i, int w, int h) {
     }
 }
 
-void updatesystrayiconstate(Client *i, XPropertyEvent *ev) {
+void updatesystrayiconstate(Client *i, XPropertyEvent *ev)
+{
     long flags;
     int code = 0;
 
@@ -2729,7 +2798,8 @@ void updatesystrayiconstate(Client *i, XPropertyEvent *ev) {
               systray->win, XEMBED_EMBEDDED_VERSION);
 }
 
-void updatesystray(void) {
+void updatesystray(void)
+{
     XSetWindowAttributes wa;
     XWindowChanges wc;
     Client *i;
@@ -2794,14 +2864,16 @@ void updatesystray(void) {
     XSync(dpy, False);
 }
 
-void updatetitle(Client *c) {
+void updatetitle(Client *c)
+{
     if (!gettextprop(c->win, netatom[NetWMName], c->name, sizeof c->name))
         gettextprop(c->win, XA_WM_NAME, c->name, sizeof c->name);
     if (c->name[0] == '\0') /* hack to mark broken clients */
         strcpy(c->name, broken);
 }
 
-void updatewindowtype(Client *c) {
+void updatewindowtype(Client *c)
+{
     Atom state = getatomprop(c, netatom[NetWMState]);
     Atom wtype = getatomprop(c, netatom[NetWMWindowType]);
 
@@ -2811,7 +2883,8 @@ void updatewindowtype(Client *c) {
         c->isfloating = 1;
 }
 
-void updatewmhints(Client *c) {
+void updatewmhints(Client *c)
+{
     XWMHints *wmh;
 
     if ((wmh = XGetWMHints(dpy, c->win))) {
@@ -2828,7 +2901,8 @@ void updatewmhints(Client *c) {
     }
 }
 
-void view(const Arg *arg) {
+void view(const Arg *arg)
+{
     int i;
     unsigned int tmptag;
 
@@ -2863,9 +2937,11 @@ void view(const Arg *arg) {
 
     focus(NULL);
     arrange(selmon);
+    updatecurrentdesktop();
 }
 
-pid_t winpid(Window w) {
+pid_t winpid(Window w)
+{
     pid_t result = 0;
 
 #ifdef __linux__
@@ -2915,7 +2991,8 @@ pid_t winpid(Window w) {
     return result;
 }
 
-pid_t getparentprocess(pid_t p) {
+pid_t getparentprocess(pid_t p)
+{
     unsigned int v = 0;
 
 #ifdef __linux__
@@ -2946,15 +3023,16 @@ pid_t getparentprocess(pid_t p) {
     return (pid_t)v;
 }
 
-int isdescprocess(pid_t p, pid_t c) {
+int isdescprocess(pid_t p, pid_t c)
+{
     while (p != c && c != 0)
         c = getparentprocess(c);
 
     return (int)c;
 }
 
-Client *
-termforwin(const Client *w) {
+Client * termforwin(const Client *w)
+{
     Client *c;
     Monitor *m;
 
@@ -2971,8 +3049,8 @@ termforwin(const Client *w) {
     return NULL;
 }
 
-Client *
-swallowingclient(Window w) {
+Client * swallowingclient(Window w)
+{
     Client *c;
     Monitor *m;
 
@@ -2986,8 +3064,8 @@ swallowingclient(Window w) {
     return NULL;
 }
 
-Client *
-wintoclient(Window w) {
+Client * wintoclient(Window w)
+{
     Client *c;
     Monitor *m;
 
@@ -2998,8 +3076,8 @@ wintoclient(Window w) {
     return NULL;
 }
 
-Client *
-wintosystrayicon(Window w) {
+Client * wintosystrayicon(Window w)
+{
     Client *i = NULL;
 
     if (!showsystray || !w)
@@ -3009,8 +3087,8 @@ wintosystrayicon(Window w) {
     return i;
 }
 
-Monitor *
-wintomon(Window w) {
+Monitor * wintomon(Window w)
+{
     int x, y;
     Client *c;
     Monitor *m;
@@ -3028,7 +3106,8 @@ wintomon(Window w) {
 /* There's no way to check accesses to destroyed windows, thus those cases are
  * ignored (especially on UnmapNotify's). Other types of errors call Xlibs
  * default error handler, which may call exit. */
-int xerror(Display *dpy, XErrorEvent *ee) {
+int xerror(Display *dpy, XErrorEvent *ee)
+{
     if (ee->error_code == BadWindow || (ee->request_code == X_SetInputFocus && ee->error_code == BadMatch) || (ee->request_code == X_PolyText8 && ee->error_code == BadDrawable) || (ee->request_code == X_PolyFillRectangle && ee->error_code == BadDrawable) || (ee->request_code == X_PolySegment && ee->error_code == BadDrawable) || (ee->request_code == X_ConfigureWindow && ee->error_code == BadMatch) || (ee->request_code == X_GrabButton && ee->error_code == BadAccess) || (ee->request_code == X_GrabKey && ee->error_code == BadAccess) || (ee->request_code == X_CopyArea && ee->error_code == BadDrawable))
         return 0;
     fprintf(stderr, "dwm: fatal error: request code=%d, error code=%d\n",
@@ -3036,19 +3115,21 @@ int xerror(Display *dpy, XErrorEvent *ee) {
     return xerrorxlib(dpy, ee); /* may call exit */
 }
 
-int xerrordummy(Display *dpy, XErrorEvent *ee) {
+int xerrordummy(Display *dpy, XErrorEvent *ee)
+{
     return 0;
 }
 
 /* Startup Error handler to check if another window manager
  * is already running. */
-int xerrorstart(Display *dpy, XErrorEvent *ee) {
+int xerrorstart(Display *dpy, XErrorEvent *ee)
+{
     die("dwm: another window manager is already running");
     return -1;
 }
 
-Monitor *
-systraytomon(Monitor *m) {
+Monitor * systraytomon(Monitor *m)
+{
     Monitor *t;
     int i, n;
     if (!systraypinning) {
@@ -3065,7 +3146,8 @@ systraytomon(Monitor *m) {
     return t;
 }
 
-void xinitvisual() {
+void xinitvisual()
+{
     XVisualInfo *infos;
     XRenderPictFormat *fmt;
     int nitems;
