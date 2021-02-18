@@ -70,12 +70,16 @@ static const Rule rules[] = {
      *	WM_CLASS(STRING) = instance, class
      *	WM_NAME(STRING) = title
      */
-    /* class            instance  title           tags mask  isfloating  isterminal  noswallow      monitor */
-    { "st-256color",    NULL,     NULL,           0,         0,          1,           0,            -1 },
-    { "Alacritty",      NULL,     NULL,           0,         0,          1,           0,            -1 },   
-    { "Xfce4-terminal", NULL,     NULL,           0,         0,          1,           0,            -1 },
-    { "URxvt",          NULL,     NULL,           0,         0,          1,           0,            -1 },
-    { NULL,             NULL,     "Event Tester", 0,         0,          0,           1,            -1 }, /* xev */
+    /* class                instance    title                   tags mask   isfloating  isterminal      noswallow   monitor */
+    { "st-256color",        NULL,       NULL,                   0,          0,          1,              0,          -1 },
+    { "Alacritty",          NULL,       NULL,                   0,          0,          1,              0,          -1 },
+    { "Xfce4-terminal",     NULL,       NULL,                   0,          0,          1,              0,          -1 },
+    { "URxvt",              NULL,       NULL,                   0,          0,          1,              0,          -1 },
+    { NULL,                 NULL,       "Event Tester",         0,          0,          0,              1,          -1 }, /* xev */
+    { NULL,                 NULL,       "Slack | mini panel",   1 << 6,     1,          0,              0,          -1 },
+    { "Slack",              NULL,       NULL,                   1 << 6,     0,          0,              0,          -1 },
+    { "jetbrains-idea",     NULL,       NULL,                   1 << 4,     0,          0,              0,          0  },
+    { "jetbrains-clion",    NULL,       NULL,                   1 << 4,     0,          0,              0,          0  },
 };
 
 /* Media keys */
