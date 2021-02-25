@@ -1,6 +1,4 @@
-/* See LICENSE file for copyright and license details. */
-
-/* for XF86 Media Keys */
+/* See LICENSE file for copyright and license details. *//* for XF86 Media Keys */
 #include <X11/XF86keysym.h>
 
 /* appearance */
@@ -40,7 +38,6 @@ static const unsigned int alphas[][3]      = {
 };
 
 static const char *const autostart[] = {
-    "autorandr", "--change", NULL,
     "lxpolkit", NULL,
     "picom", NULL,
     "feh", "--bg-scale",
@@ -51,15 +48,15 @@ static const char *const autostart[] = {
     "pamac-tray", NULL,
     "statusbar", NULL,
     "nm-applet", NULL,
-    "redshift-gtk", NULL,
     "parcellite", NULL,
     "libinput-gestures-setup", "start", NULL,
-    "caffeine", NULL,
-    "numlockx", NULL,
     "dropbox", "start", "-i", NULL,
     "pasystray", NULL,
-    "xfce4-power-manager", NULL,
+    "cbatticon", NULL,
     "autorandr", "--change", NULL,
+    "xautolock", "-time", "5", "-locker", "screenlock", "-detectsleep",
+    "redshift-gtk", NULL,
+    "skypeforlinux", NULL,
 };
 
 /* tagging */
@@ -77,6 +74,7 @@ static const Rule rules[] = {
     { "URxvt",              NULL,       NULL,                   0,          0,          1,              0,          -1 },
     { NULL,                 NULL,       "Event Tester",         0,          0,          0,              1,          -1 }, /* xev */
     { NULL,                 NULL,       "Slack | mini panel",   1 << 6,     1,          0,              0,          -1 },
+    { "Skype",              NULL,       NULL,                   1 << 6,     0,          0,              0,          -1 },
     { "Slack",              NULL,       NULL,                   1 << 6,     0,          0,              0,          -1 },
     { "jetbrains-idea",     NULL,       NULL,                   1 << 4,     0,          0,              0,          -1 },
     { "jetbrains-clion",    NULL,       NULL,                   1 << 4,     0,          0,              0,          -1 },
