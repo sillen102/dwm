@@ -129,7 +129,7 @@ static const char *termcmd[]  = { "xfce4-terminal", NULL };
 static const char *browsercmd[] = { "google-chrome-stable", "--profile-directory=Profile 2", "--new-window", NULL };
 static const char *secondbrowsercmd[] = { "google-chrome-stable", "--profile-directory=Profile 3", "--new-window", NULL };
 static const char *filemanagercmd[] = { "pcmanfm", NULL };
-static const char *editorcmd[] = { "mousepad", NULL };
+static const char *editorcmd[] = { "gedit", "--new-window", NULL };
 static const char *secondeditorcmd[] = { "code", NULL };
 static const char *rofimenucmd[] = { "rofi", "-show", "drun", "-theme", "clean", NULL };
 static const char *rofiwindowcmd[] = { "rofi", "-show", "window", "-theme", "clean_window", NULL };
